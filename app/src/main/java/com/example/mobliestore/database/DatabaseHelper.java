@@ -29,6 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_CATEGORY_IMAGE = "image";
 
     // Order Table Columns
+    public static final String COLUMN_ORDER_USER_ID = "user_id";
     public static final String COLUMN_ORDER_PRODUCT_ID = "product_id";
     public static final String COLUMN_ORDER_QUANTITY = "quantity";
     public static final String COLUMN_ORDER_PRODUCT_NAME = "product_name";
@@ -58,11 +59,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_ORDER = "CREATE TABLE " + TABLE_ORDER + " (" +
             COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_ORDER_USER_ID + " INTEGER NOT NULL, " +
             COLUMN_ORDER_PRODUCT_ID + " INTEGER NOT NULL, " +
             COLUMN_ORDER_QUANTITY + " INTEGER NOT NULL, " +
             COLUMN_ORDER_PRODUCT_NAME + " TEXT NOT NULL, " +
             COLUMN_ORDER_PRODUCT_PRICE + " REAL NOT NULL, " +
             COLUMN_ORDER_PRODUCT_IMAGE + " TEXT, " +
+            "FOREIGN KEY(" + COLUMN_ORDER_USER_ID + ") REFERENCES " + TABLE_USER + "(" + COLUMN_ID + "), " +
             "FOREIGN KEY(" + COLUMN_ORDER_PRODUCT_ID + ") REFERENCES " + TABLE_PRODUCT + "(" + COLUMN_ID + "))";
 
     private static final String CREATE_TABLE_USER = "CREATE TABLE " + TABLE_USER + " (" +

@@ -1,7 +1,7 @@
 package com.example.mobliestore.model;
 
 public class Order {
-     int id,productId,quantity;
+     int id,userId,productId,quantity;
      String productName;
      double productPrice;
      String productImage;
@@ -9,8 +9,9 @@ public class Order {
     public Order() {
     }
 
-    public Order(int id, int productId, int quantity, String productName, double productPrice, String productImage) {
+    public Order(int id, int userId, int productId, int quantity, String productName, double productPrice, String productImage) {
         this.id = id;
+        this.userId = userId;
         this.productId = productId;
         this.quantity = quantity;
         this.productName = productName;
@@ -24,6 +25,14 @@ public class Order {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getProductId() {
@@ -70,6 +79,7 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "id=" + id +
+                ", userId=" + userId +
                 ", productId=" + productId +
                 ", quantity=" + quantity +
                 ", productName='" + productName + '\'' +

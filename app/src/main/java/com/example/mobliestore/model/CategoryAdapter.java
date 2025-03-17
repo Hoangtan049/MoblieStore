@@ -59,9 +59,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                 int currentPosition= holder.getAdapterPosition();
                 Category currentCate= list.get(currentPosition);
                 Intent intent= new Intent(context, UpdateCategoryActivity.class);
-                intent.putExtra(DatabaseHelper.COLUMN_ID,currentCate.getId());
-                intent.putExtra(DatabaseHelper.COLUMN_CATEGORY_NAME,currentCate.getName());
-                intent.putExtra(DatabaseHelper.COLUMN_CATEGORY_IMAGE,currentCate.getImage());
+                intent.putExtra("category_id",currentCate.getId());
+                intent.putExtra("category_name",currentCate.getName());
+                intent.putExtra("category_image",currentCate.getImage());
                 context.startActivity(intent);
 
 

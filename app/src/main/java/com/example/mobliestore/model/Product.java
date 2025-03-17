@@ -7,7 +7,7 @@ public class Product {
     int categoryId;
     String image;
     int stock;
-String categoryName;
+    String categoryName;
     public Product() {
     }
 

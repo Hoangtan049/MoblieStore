@@ -2,13 +2,16 @@ package com.example.mobliestore.model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -69,14 +72,36 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
                 Product currentProduct= list.get(currentPosition);
                 Intent intent = new Intent(context, UpdateProductActivity.class);
-                intent.putExtra(DatabaseHelper.COLUMN_ID,currentProduct.getId());
-                intent.putExtra(DatabaseHelper.COLUMN_PRODUCT_NAME,currentProduct.getName());
-                intent.putExtra(DatabaseHelper.COLUMN_PRODUCT_PRICE,currentProduct.getPrice());
-                intent.putExtra(DatabaseHelper.COLUMN_PRODUCT_CATEGORY_ID,currentProduct.getStock());
-                intent.putExtra(DatabaseHelper.COLUMN_PRODUCT_IMAGE,currentProduct.getImage());
-                intent.putExtra(DatabaseHelper.COLUMN_PRODUCT_STOCK,currentProduct.getCategoryId());
-                intent.putExtra(DatabaseHelper.TABLE_PRODUCT,currentProduct.getCategoryName());
+                intent.putExtra("product_id",currentProduct.getId());
+                intent.putExtra("product_name",currentProduct.getName());
+                intent.putExtra("product_price",currentProduct.getPrice());
+                intent.putExtra("product_stock",currentProduct.getStock());
+                intent.putExtra("product_image",currentProduct.getImage());
+                intent.putExtra("product_category_id",currentProduct.getCategoryId());
+                intent.putExtra("product_category_name",currentProduct.getCategoryName());
                 context.startActivity(intent);
+            }
+        });
+        SharedPreferences sharedPreferences = context.getSharedPreferences("USER_PREF",Context.MODE_PRIVATE);
+        int userId= sharedPreferences.getInt("user_id",-1);
+        holder.btnBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (userId==-1){
+                    Toast.makeText(context, "Chưa Đăng Nhập", Toast.LENGTH_SHORT).show();
+                }
+                DataManager dataManager = new DataManager(context);
+                boolean isOrderCreate= dataManager.createOrder(userId,product.getId(),1,product.getPrice());
+                if (isOrderCreate){
+                    product.setStock(product.getStock() - 1);
+                    notifyItemChanged(holder.getAdapterPosition());
+
+                    Toast.makeText(context, "Mua hàng thành công chờ duyệt đơn hàng", Toast.LENGTH_LONG).show();
+
+                }
+                else {
+                    Toast.makeText(context, "Mua hàng thất bại", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -90,6 +115,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         ImageView imageProduct;
         TextView txtName,txtPrice,txtStock,txtCate;
         ImageButton btnDelete,btnUpdate;
+        Button btnBuy;
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             imageProduct=itemView.findViewById(R.id.imageProduct);
@@ -99,6 +125,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             txtCate=itemView.findViewById(R.id.txtCate);
             btnUpdate=itemView.findViewById(R.id.btnUpdate);
             btnDelete=itemView.findViewById(R.id.btnDelete);
+            btnBuy=itemView.findViewById(R.id.btnBuy);
         }
     }
 }

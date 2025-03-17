@@ -1,14 +1,23 @@
 package com.example.mobliestore.ui;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mobliestore.R;
+import com.example.mobliestore.model.Order;
+import com.example.mobliestore.model.OrderAdapter;
+import com.example.mobliestore.utils.DataManager;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +25,9 @@ import com.example.mobliestore.R;
  * create an instance of this fragment.
  */
 public class OrderFragment extends Fragment {
+    RecyclerView recyclerView;
+    DataManager dataManager;
+    OrderAdapter orderAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +73,24 @@ public class OrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_order, container, false);
+        View v= inflater.inflate(R.layout.fragment_order, container, false);
+        recyclerView = v.findViewById(R.id.rcl_order);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        dataManager= new DataManager(getContext());
+        loadOrder();
+        return v;
+    }
+    private void loadOrder() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("USER_PREF", Context.MODE_PRIVATE);
+        int userId= sharedPreferences.getInt("user_id",-1);
+        List<Order> ordersList= dataManager.getAllOrders(userId);
+        orderAdapter= new OrderAdapter(getContext(),ordersList);
+        recyclerView.setAdapter(orderAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadOrder();
     }
 }
