@@ -29,6 +29,7 @@ public class CreateCategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_category);
         databaseHelper = new DatabaseHelper(this);
+getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         edtNameCate = findViewById(R.id.edtNameCate);
         imageCreateCate = findViewById(R.id.imageCreateCate);
         btnCreateCate = findViewById(R.id.btnCreateCate);
@@ -74,5 +75,11 @@ public class CreateCategoryActivity extends AppCompatActivity {
             getContentResolver().takePersistableUriPermission(imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
             Glide.with(this).load(imageUri).into(imageCreateCate);
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
     }
 }
