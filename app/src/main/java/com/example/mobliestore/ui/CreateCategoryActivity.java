@@ -29,7 +29,7 @@ public class CreateCategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_category);
         databaseHelper = new DatabaseHelper(this);
-getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         edtNameCate = findViewById(R.id.edtNameCate);
         imageCreateCate = findViewById(R.id.imageCreateCate);
         btnCreateCate = findViewById(R.id.btnCreateCate);

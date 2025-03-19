@@ -37,6 +37,7 @@ public class CreateProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_product);
         databaseHelper = new DatabaseHelper(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         edtCreateName = findViewById(R.id.edtCreateName);
         edtCreatePrice = findViewById(R.id.edtCreatePrice);
         edtCreateStock = findViewById(R.id.edtCreateStock);
@@ -103,5 +104,11 @@ public class CreateProductActivity extends AppCompatActivity {
 
 
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
     }
 }
